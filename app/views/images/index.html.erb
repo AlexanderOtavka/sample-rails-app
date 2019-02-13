@@ -2,27 +2,14 @@
 
 <h1>Images</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Url</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @images.each do |image| %>
-      <tr>
-        <td><%= image.title %></td>
-        <td><%= image.url %></td>
-        <td><%= link_to 'Show', image %></td>
-        <td><%= link_to 'Edit', edit_image_path(image) %></td>
-        <td><%= link_to 'Destroy', image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<main class="list">
+  <% @images.each do |image| %>
+    <figure class="image">
+      <img class="image__img" src="<%= image.url %>" />
+      <caption><%= image.title %></caption>
+    </figure>
+  <% end %>
+</main>
 
 <br>
 
