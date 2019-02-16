@@ -2,18 +2,46 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.header {
+  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
+  padding: 20px;
+  display: flex;
+}
+
+.header__title {
+  flex: 1;
+  margin: 0;
+  font-weight: normal;
+  font-family: "Courier New", Courier, monospace;
+}
+
 .list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 30px;
 }
 
 .image {
-  margin: 10px;
+  margin: 5px;
   width: 200px;
+  position: relative;
 }
 
 .image__img {
   width: 100%;
+  border-radius: 10px;
+}
+
+.image__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  margin: 0;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }

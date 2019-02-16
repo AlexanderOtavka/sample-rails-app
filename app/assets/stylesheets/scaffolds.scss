@@ -1,13 +1,16 @@
 body {
   background-color: #fff;
   color: #333;
-  margin: 33px;
+  margin: 0px;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
 }
 
-p, ol, ul, td {
+p,
+ol,
+ul,
+td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
@@ -41,13 +44,15 @@ td {
 }
 
 div {
-  &.field, &.actions {
+  &.field,
+  &.actions {
     margin-bottom: 10px;
   }
 }
 
 #notice {
   color: green;
+  margin: 20px;
 }
 
 .field_with_errors {

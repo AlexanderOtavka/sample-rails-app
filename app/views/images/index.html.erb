@@ -1,6 +1,10 @@
-<p id="notice"><%= notice %></p>
+<header class="header">
+  <h1 class="header__title">Images</h1>
 
-<h1>Images</h1>
+  <%= link_to 'New Image', new_image_path %>
+</header>
+
+<p class="notice" id="notice"><%= notice %></p>
 
 <main class="list">
   <% @images.each do |image| %>
@@ -10,5 +14,3 @@
     </article>
   <% end %>
 </main>
-
-<%= link_to 'New Image', new_image_path %>
