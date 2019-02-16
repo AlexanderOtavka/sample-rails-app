@@ -29,6 +29,18 @@
   position: relative;
 }
 
+.image__link:hover {
+  background: none;
+
+  .image__img {
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
+  }
+
+  & ~ .image__title {
+    text-decoration: underline;
+  }
+}
+
 .image__img {
   width: 100%;
   border-radius: 10px;
@@ -44,6 +56,8 @@
   color: white;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .create-image {

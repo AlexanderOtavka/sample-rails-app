@@ -9,7 +9,9 @@
 <main class="list">
   <% @images.each do |image| %>
     <article class="image">
-      <img class="image__img" src="<%= image.url %>" />
+      <a class="image__link" href="<%= image_path image %>">
+        <img class="image__img" src="<%= image.url %>" />
+      </a>
       <h2 class="image__title"><%= image.title %></h2>
     </article>
   <% end %>
