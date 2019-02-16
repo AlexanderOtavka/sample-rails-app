@@ -4,13 +4,11 @@
 
 <main class="list">
   <% @images.each do |image| %>
-    <figure class="image">
+    <article class="image">
       <img class="image__img" src="<%= image.url %>" />
-      <caption><%= image.title %></caption>
-    </figure>
+      <h2 class="image__title"><%= image.title %></h2>
+    </article>
   <% end %>
 </main>
-
-<br>
 
 <%= link_to 'New Image', new_image_path %>
