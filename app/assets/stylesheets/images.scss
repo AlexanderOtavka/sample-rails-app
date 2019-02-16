@@ -7,6 +7,10 @@
   padding: 20px;
   display: flex;
   background: #fff;
+
+  & > * {
+    margin: 0 10px;
+  }
 }
 
 .header__title {
@@ -99,4 +103,8 @@
   .actions {
     margin: 10px;
   }
+}
+
+.big-image {
+  width: 100%;
 }

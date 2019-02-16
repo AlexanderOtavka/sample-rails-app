@@ -1,14 +1,12 @@
-<p id="notice"><%= notice %></p>
+<header class="header">
+  <h1 class="header__title"><%= @image.title %></h1>
 
-<p>
-  <strong>Title:</strong>
-  <%= @image.title %>
-</p>
+  <%= link_to 'Edit', edit_image_path(@image) %>
+  <%= link_to 'Back', images_path %>
+</header>
 
-<p>
-  <strong>Url:</strong>
-  <%= @image.url %>
-</p>
+<% if notice %>
+  <aside id="notice"><%= notice %></aside>
+<% end %>
 
-<%= link_to 'Edit', edit_image_path(@image) %> |
-<%= link_to 'Back', images_path %>
+<img class="big-image" src="<%= @image.url %>">
