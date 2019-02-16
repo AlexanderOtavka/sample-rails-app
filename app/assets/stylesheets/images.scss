@@ -6,13 +6,13 @@
   box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
   padding: 20px;
   display: flex;
+  background: #fff;
 }
 
 .header__title {
   flex: 1;
   margin: 0;
   font-weight: normal;
-  font-family: "Courier New", Courier, monospace;
 }
 
 .list {
@@ -44,4 +44,45 @@
   color: white;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+}
+
+.create-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+
+  form {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
+    padding: 10px;
+    background: #fff;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: row;
+
+    label {
+      flex: 1;
+    }
+
+    input {
+      flex: 3;
+    }
+  }
+
+  input[type="submit"] {
+    // background: #efefef;
+    border: 2px solid #333;
+    border-radius: 10px;
+    // padding: 10px;
+    font-size: 14px;
+  }
+
+  .field,
+  .actions {
+    margin: 10px;
+  }
 }

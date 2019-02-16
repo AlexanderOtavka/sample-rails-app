@@ -1,5 +1,9 @@
-<h1>New Image</h1>
+<header class="header">
+  <h1 class="header__title">New Image</h1>
 
-<%= render 'form', image: @image %>
+  <%= link_to 'Back', images_path %>
+</header>
 
-<%= link_to 'Back', images_path %>
+<main class="create-image">
+  <%= render 'form', image: @image %>
+</main>
