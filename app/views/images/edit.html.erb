@@ -1,6 +1,10 @@
-<h1>Editing Image</h1>
+<header class="header">
+  <h1 class="header__title">Editing Image</h1>
 
-<%= render 'form', image: @image %>
+  <%= link_to 'Show', @image %>
+  <%= link_to 'Back', images_path %>
+</header>
 
-<%= link_to 'Show', @image %> |
-<%= link_to 'Back', images_path %>
+<main class="image-form-wrapper">
+  <%= render 'form', image: @image %>
+</main>
