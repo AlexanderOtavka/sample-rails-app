@@ -1,3 +1,5 @@
+require 'fastimage'
+
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :edit, :update, :destroy]
 
@@ -5,11 +7,15 @@ class ImagesController < ApplicationController
   # GET /images.json
   def index
     @images = Image.all
+    @images.each do |image|
+      maybe_update_aspect_ratio image
+    end
   end
 
   # GET /images/1
   # GET /images/1.json
   def show
+    maybe_update_aspect_ratio @image
   end
 
   # GET /images/new
@@ -69,6 +75,21 @@ class ImagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def image_params
-      params.require(:image).permit(:title, :url)
+      raw_image_params = params.require(:image)
+      raw_image_params.permit(:title, :url).merge({
+        :aspect_ratio => image_aspect_ratio(raw_image_params[:url])
+      })
+    end
+
+    def maybe_update_aspect_ratio(image)
+      if not image.aspect_ratio
+        image.aspect_ratio = image_aspect_ratio(image.url)
+        image.save!
+      end
+    end
+
+    def image_aspect_ratio(url)
+      width, height = FastImage.size url
+      width.to_f / height
     end
 end
