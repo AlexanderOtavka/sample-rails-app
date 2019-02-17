@@ -6,18 +6,22 @@
 
 <aside class="notice" id="notice"><%= notice %></aside>
 
-<main class="list">
-  <% @images.each do |image| %>
-    <article class="image">
-      <a class="image__link" href="<%= image_path image %>">
-        <img class="image__img" src="<%= image.url %>" />
-      </a>
-      <h2 class="image__title"><%= image.title %></h2>
-    </article>
-  <% end %>
+<main class="main">
+  <ul class="list">
+    <% @images.each do |image| %>
+      <li class="list__item">
+        <article class="image">
+          <a class="image__link" href="<%= image_path image %>">
+            <img class="image__img" src="<%= image.url %>" />
+          </a>
+          <h2 class="image__title"><%= image.title %></h2>
+        </article>
+      </li>
+    <% end %>
+  </ul>
 
   <% if @images.empty? %>
-    <p class="list__empty-text">
+    <p class="main__empty-text">
       Looks like there aren't any images yet.
       Be the first to&nbsp;<%= link_to 'add one!', new_image_path %>
     </p>
