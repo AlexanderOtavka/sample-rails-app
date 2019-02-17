@@ -11,9 +11,9 @@
     <% @images.each do |image| %>
       <li class="list__item">
         <article class="image">
-          <a class="image__link" href="<%= image_path image %>">
+          <%= link_to image_path(image), class: "image__link" do %>
             <img class="image__img" src="<%= image.url %>" />
-          </a>
+          <% end %>
           <h2 class="image__title"><%= image.title %></h2>
         </article>
       </li>
