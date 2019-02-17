@@ -1,0 +1,10 @@
+<li class="list__item">
+  <article class="image">
+    <%= link_to show_path, class: "image__link" do %>
+      <img class="image__img" src="<%= url %>"
+            width="<%= width %>"
+            height="<%= height %>" />
+    <% end %>
+    <h2 class="image__title"><%= title %></h2>
+  </article>
+</li>

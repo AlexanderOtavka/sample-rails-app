@@ -61,7 +61,11 @@ connectMasonryLayout = (listElement) ->
   listElement.layoutNewChildren = () ->
     for i in [0...listElement.children.length]
       listElement.children[i].style.position = "absolute"
-    doLayout()
+    try
+      doLayout()
+    catch _error
+      for i in [0...listElement.children.length]
+        listElement.children[i].style.position = ""
 
   # TODO: redo this on child added or removed
   listElement.layoutNewChildren()
@@ -71,7 +75,76 @@ connectMasonryLayout = (listElement) ->
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(doLayout, 400)
 
+connectInfiniteList = (listElement, {footerElement, onPageAdd, getPage}) ->
+  numPages = +listElement.dataset.numPages
+  nextPage = 2
+  hasReachedEnd = false
+  isFetching = false
+
+  footerElement.innerHTML = "<p>Loading more...</p>"
+
+  checkAndLoadMore = () ->
+    if not hasReachedEnd
+      if nextPage > numPages
+        footerElement.innerHTML = "<p>No more pictures.</p>"
+        hasReachedEnd = true
+        window.removeEventListener "scroll", checkAndLoadMore
+
+      windowBottom = window.innerHeight
+      footerTop = footerElement.getBoundingClientRect().top
+      if footerTop < windowBottom and not isFetching
+        # The footer is visible, load the next page
+        isFetching = true
+        getPage(nextPage)
+          .then((pageContent) ->
+            listElement.appendChild(pageContent)
+            onPageAdd()
+            nextPage++
+            isFetching = false
+          )
+          .catch((error) ->
+            footerElement.textContent =
+              "Couldn't load the next page. #{error.message}"
+          )
+
+  checkAndLoadMore()
+  window.addEventListener "scroll", checkAndLoadMore
+
 document.addEventListener "turbolinks:load", () ->
   list = document.querySelector(".list")
   # TODO: wait until all images have their sizes
-  connectMasonryLayout list if list != null
+  if list != null
+    connectMasonryLayout list
+
+    connectInfiniteList(
+      list,
+      {
+        footerElement: document.querySelector(".footer")
+        onPageAdd: list.layoutNewChildren
+        getPage: (page) ->
+          fetch("/images.json?page=#{page}").then((response) ->
+            if response.ok
+              response.json().then((images) ->
+                documentFragment = document.createDocumentFragment()
+                template = document.querySelector("template#image-template")
+                for image in images
+                  instance = template.content.cloneNode(true)
+                  linkElement = instance.querySelector(".image__link")
+                  titleElement = instance.querySelector(".image__title")
+                  imageElement = instance.querySelector(".image__img")
+
+                  linkElement.href = "/images/#{image.id}"
+                  titleElement.textContent = image.title
+                  imageElement.src = image.url
+                  imageElement.width = image.width
+                  imageElement.height = image.height
+
+                  documentFragment.appendChild instance
+
+                documentFragment
+              )
+            else
+              Promise.reject response.statusText
+          )
+      },
+    )

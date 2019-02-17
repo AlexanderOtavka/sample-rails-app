@@ -6,19 +6,19 @@
 
 <aside class="notice" id="notice"><%= notice %></aside>
 
+<template id="image-template">
+  <%= render 'image_list_item', show_path: "", width: "", height: "",
+                                url: "", title: "" %>
+</template>
+
 <main class="main">
-  <ul class="list">
+  <ul class="list" data-num-pages="<%= @images.total_pages %>">
     <% @images.each do |image| %>
-      <li class="list__item">
-        <article class="image">
-          <%= link_to image_path(image), class: "image__link" do %>
-            <img class="image__img" src="<%= image.url %>"
-                 width="<%= image_width image %>"
-                 height="<%= image_height image %>" />
-          <% end %>
-          <h2 class="image__title"><%= image.title %></h2>
-        </article>
-      </li>
+      <%= render 'image_list_item', show_path: image_path(image),
+                                    width: image_width(image),
+                                    height: image_height(image),
+                                    url: image.url,
+                                    title: image.title %>
     <% end %>
   </ul>
 
