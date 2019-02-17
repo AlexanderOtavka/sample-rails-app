@@ -2,7 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+# Layout the children of listElement in a masonry style (like pinterest)
+# listElement must not be position static
 connectMasonryLayout = (listElement) ->
+  if getComputedStyle(listElement).getPropertyValue("position") == "static"
+    throw Error "listElement cannot be position static"
+
   doLayout = () ->
     columnWidth = null
     numColumns = null
@@ -14,9 +19,6 @@ connectMasonryLayout = (listElement) ->
     getColumnLeftPos = (columnNumber) ->
       if columnWidth == null
         throw Error "Cannot call getColumnLeftPos before the first child rect is processed and columnWidth is found."
-      leftMargin = (totalWidth % columnWidth) / 2
-      columnOffset = columnNumber * columnWidth
-      leftMargin + columnOffset
 
     children = listElement.children
     for i in [0...children.length]
@@ -28,22 +30,24 @@ connectMasonryLayout = (listElement) ->
         for i in [0...numColumns]
           columnHeights[i] = 0
       else if childRect.width != columnWidth
-        console.warn "Bad width child", child, "width:", childWidth
+        throw Error "Bad width child: #{child}, width: #{childRect.width}"
 
       column = 0
       for i in [0...numColumns]
         if columnHeights[i] < columnHeights[column]
           column = i
 
+      leftMargin = (totalWidth % columnWidth) / 2
+      columnOffset = column * columnWidth
+
       childPositions.set child, {
-        x: getColumnLeftPos column
+        x: leftMargin + columnOffset
         y: columnHeights[column]
       }
 
       columnHeights[column] += childRect.height
 
     childPositions.forEach ({x, y}, child) ->
-      child.style.position = "absolute"
       child.style.left = "#{x}px"
       child.style.top = "#{y}px"
 
