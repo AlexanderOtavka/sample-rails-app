@@ -15,4 +15,11 @@
       <h2 class="image__title"><%= image.title %></h2>
     </article>
   <% end %>
+
+  <% if @images.empty? %>
+    <p class="list__empty-text">
+      Looks like there aren't any images yet.
+      Be the first to&nbsp;<%= link_to 'add one!', new_image_path %>
+    </p>
+  <% end %>
 </main>
