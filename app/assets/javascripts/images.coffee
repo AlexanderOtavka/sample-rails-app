@@ -2,11 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-connectList = (listElement) ->
-  prepChildren = () ->
-    for i in [0...listElement.children.length]
-      listElement.children[i].style.position = "absolute"
-
+connectMasonryLayout = (listElement) ->
   doLayout = () ->
     columnWidth = null
     numColumns = null
@@ -58,9 +54,13 @@ connectList = (listElement) ->
 
     listElement.style.height = "#{maxHeight}px"
 
+  listElement.layoutNewChildren = () ->
+    for i in [0...listElement.children.length]
+      listElement.children[i].style.position = "absolute"
+    doLayout()
+
   # TODO: redo this on child added or removed
-  prepChildren()
-  doLayout()
+  listElement.layoutNewChildren()
 
   resizeTimeout = null
   window.addEventListener "resize", () ->
@@ -69,4 +69,5 @@ connectList = (listElement) ->
 
 document.addEventListener "turbolinks:load", () ->
   list = document.querySelector(".list")
-  connectList list if list != null
+  # TODO: wait until all images have their sizes
+  connectMasonryLayout list if list != null
