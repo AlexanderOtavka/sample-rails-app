@@ -10,7 +10,9 @@ class ImagesController < ApplicationController
       :page => 1 # pagination index starts at 1, not 0
     })
 
-    @images = Image.page(index_params[:page]).per(10)
+    @images = Image.order(created_at: :desc)
+      .page(index_params[:page])
+      .per(10)
     @images.each do |image|
       maybe_update_aspect_ratio image
     end
