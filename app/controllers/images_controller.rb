@@ -6,7 +6,11 @@ class ImagesController < ApplicationController
   # GET /images
   # GET /images.json
   def index
-    @images = Image.all
+    index_params = params.permit(:page).reverse_merge({
+      :page => 1 # pagination index starts at 1, not 0
+    })
+
+    @images = Image.page(index_params[:page]).per(10)
     @images.each do |image|
       maybe_update_aspect_ratio image
     end
@@ -33,7 +37,12 @@ class ImagesController < ApplicationController
     @image = Image.new(image_params)
 
     respond_to do |format|
-      if @image.save
+      params_hash = image_params
+      if not params_hash[:aspect_ratio]
+        @image.errors.add(:url, "Must be a valid URL to an image")
+        format.html { render :edit }
+        format.json { render json: @image.errors, status: :unprocessable_entity }
+      elsif @image.save
         format.html { redirect_to @image, notice: 'Image was successfully created.' }
         format.json { render :show, status: :created, location: @image }
       else
@@ -47,7 +56,12 @@ class ImagesController < ApplicationController
   # PATCH/PUT /images/1.json
   def update
     respond_to do |format|
-      if @image.update(image_params)
+      params_hash = image_params
+      if not params_hash[:aspect_ratio]
+        @image.errors.add(:url, "Must be a valid URL to an image")
+        format.html { render :edit }
+        format.json { render json: @image.errors, status: :unprocessable_entity }
+      elsif @image.update(params_hash)
         format.html { redirect_to @image, notice: 'Image was successfully updated.' }
         format.json { render :show, status: :ok, location: @image }
       else
@@ -83,13 +97,20 @@ class ImagesController < ApplicationController
 
     def maybe_update_aspect_ratio(image)
       if not image.aspect_ratio
-        image.aspect_ratio = image_aspect_ratio(image.url)
-        image.save!
+        aspect_ratio = image_aspect_ratio(image.url)
+        if aspect_ratio
+          image.aspect_ratio = aspect_ratio
+          image.save!
+        end
       end
     end
 
     def image_aspect_ratio(url)
       width, height = FastImage.size url
-      width.to_f / height
+      if width and height
+        width.to_f / height
+      else
+        nil
+      end
     end
 end

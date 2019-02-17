@@ -94,6 +94,8 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
   border-radius: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 // Form pages
@@ -114,10 +116,12 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 
 .form__label {
   flex: 1;
+  width: 25%;
 }
 
 .form__input {
   flex: 3;
+  width: 75%;
 }
 
 .form__submit {
@@ -135,4 +139,12 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 .big-image {
   width: 100%;
   display: block;
+}
+
+// Footer
+
+.footer {
+  margin: 30px;
+  display: flex;
+  justify-content: center;
 }
