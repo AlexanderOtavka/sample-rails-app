@@ -67,7 +67,6 @@ connectMasonryLayout = (listElement) ->
       for i in [0...listElement.children.length]
         listElement.children[i].style.position = ""
 
-  # TODO: redo this on child added or removed
   listElement.layoutNewChildren()
 
   resizeTimeout = null
@@ -113,7 +112,6 @@ connectInfiniteList = (listElement, {footerElement, onPageAdd, getPage}) ->
 
 document.addEventListener "turbolinks:load", () ->
   list = document.querySelector(".list")
-  # TODO: wait until all images have their sizes
   if list != null
     connectMasonryLayout list
 
