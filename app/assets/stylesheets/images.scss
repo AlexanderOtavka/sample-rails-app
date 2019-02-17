@@ -69,40 +69,38 @@
   flex-direction: column;
   align-items: center;
   margin: 30px;
+}
 
-  form {
-    width: 300px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
-    padding: 10px;
-    background: #fff;
-  }
+.form {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
+  padding: 10px;
+  background: #fff;
+}
 
-  .field {
-    display: flex;
-    flex-direction: row;
+.form__field {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
 
-    label {
-      flex: 1;
-    }
+.form__label {
+  flex: 1;
+}
 
-    input {
-      flex: 3;
-    }
-  }
+.form__input {
+  flex: 3;
+}
 
-  input[type="submit"] {
-    // background: #efefef;
-    border: 2px solid #333;
-    border-radius: 10px;
-    // padding: 10px;
-    font-size: 14px;
-  }
+.form__submit {
+  border: 2px solid #333;
+  border-radius: 10px;
+  font-size: 14px;
+}
 
-  .field,
-  .actions {
-    margin: 10px;
-  }
+.form__actions {
+  margin: 10px;
 }
 
 .big-image {
