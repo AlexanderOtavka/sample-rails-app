@@ -92,7 +92,8 @@ connectInfiniteList = (listElement, {footerElement, onPageAdd, getPage}) ->
 
       windowBottom = window.innerHeight
       footerTop = footerElement.getBoundingClientRect().top
-      if footerTop < windowBottom and not isFetching
+      THRESHOLD = 200
+      if footerTop - THRESHOLD < windowBottom and not isFetching
         # The footer is visible, load the next page
         isFetching = true
         getPage(nextPage)
@@ -116,35 +117,36 @@ document.addEventListener "turbolinks:load", () ->
   if list != null
     connectMasonryLayout list
 
-    connectInfiniteList(
-      list,
-      {
-        footerElement: document.querySelector(".footer")
-        onPageAdd: list.layoutNewChildren
-        getPage: (page) ->
-          fetch("/images.json?page=#{page}").then((response) ->
-            if response.ok
-              response.json().then((images) ->
-                documentFragment = document.createDocumentFragment()
-                template = document.querySelector("template#image-template")
-                for image in images
-                  instance = template.content.cloneNode(true)
-                  linkElement = instance.querySelector(".image__link")
-                  titleElement = instance.querySelector(".image__title")
-                  imageElement = instance.querySelector(".image__img")
+    if window.fetch
+      connectInfiniteList(
+        list,
+        {
+          footerElement: document.querySelector(".footer")
+          onPageAdd: list.layoutNewChildren
+          getPage: (page) ->
+            fetch("/images.json?page=#{page}").then((response) ->
+              if response.ok
+                response.json().then((images) ->
+                  documentFragment = document.createDocumentFragment()
+                  template = document.querySelector("template#image-template")
+                  for image in images
+                    instance = template.content.cloneNode(true)
+                    linkElement = instance.querySelector(".image__link")
+                    titleElement = instance.querySelector(".image__title")
+                    imageElement = instance.querySelector(".image__img")
 
-                  linkElement.href = "/images/#{image.id}"
-                  titleElement.textContent = image.title
-                  imageElement.src = image.url
-                  imageElement.width = image.width
-                  imageElement.height = image.height
+                    linkElement.href = "/images/#{image.id}"
+                    titleElement.textContent = image.title
+                    imageElement.src = image.url
+                    imageElement.width = image.width
+                    imageElement.height = image.height
 
-                  documentFragment.appendChild instance
+                    documentFragment.appendChild instance
 
-                documentFragment
-              )
-            else
-              Promise.reject response.statusText
-          )
-      },
-    )
+                  documentFragment
+                )
+              else
+                Promise.reject response.statusText
+            )
+        },
+      )
