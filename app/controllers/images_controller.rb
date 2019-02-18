@@ -37,6 +37,7 @@ class ImagesController < ApplicationController
   # POST /images.json
   def create
     @image = Image.new(image_params)
+    @image.user_token = @user_token
 
     respond_to do |format|
       params_hash = image_params
@@ -59,7 +60,11 @@ class ImagesController < ApplicationController
   def update
     respond_to do |format|
       params_hash = image_params
-      if not params_hash[:aspect_ratio]
+      if @user_token != @image.user_token
+        message = "You cannot edit images that aren't yours."
+        format.html { redirect_to @image, notice: message }
+        format.json { render json: { message: message }, status: :unauthorized }
+      elsif not params_hash[:aspect_ratio]
         @image.errors.add(:url, "Must be a valid URL to an image")
         format.html { render :edit }
         format.json { render json: @image.errors, status: :unprocessable_entity }
@@ -76,10 +81,16 @@ class ImagesController < ApplicationController
   # DELETE /images/1
   # DELETE /images/1.json
   def destroy
-    @image.destroy
     respond_to do |format|
-      format.html { redirect_to images_url, notice: 'Image was successfully destroyed.' }
-      format.json { head :no_content }
+      if @user_token != @image.user_token
+        message = "You cannot remove images that aren't yours."
+        format.html { redirect_to @image, notice: message }
+        format.json { render json: { message: message }, status: :unauthorized }
+      else
+        @image.destroy
+        format.html { redirect_to images_url, notice: 'Image was successfully removed.' }
+        format.json { head :no_content }
+      end
     end
   end
 

@@ -3,9 +3,11 @@
 <header class="header">
   <h1 class="header__title"><%= @image.title %></h1>
 
-  <%= link_to 'Delete', @image, method: :delete,
-                        data: { confirm: 'Are you sure?' } %>
-  <%= link_to 'Edit', edit_image_path(@image) %>
+  <% if @user_token == @image.user_token %>
+    <%= link_to 'Delete', @image, method: :delete,
+                          data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Edit', edit_image_path(@image) %>
+  <% end %>
   <%= link_to 'Back', images_path %>
 </header>
 
