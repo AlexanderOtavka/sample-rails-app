@@ -1,6 +1,6 @@
 module ImagesHelper
   def image_width(_image)
-    200
+    300
   end
 
   def image_height(image)

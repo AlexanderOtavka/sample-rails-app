@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$image-width: 200px;
+$image-width: 300px;
 $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 
 // Headers
@@ -28,6 +28,10 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 
 .main {
   margin: 30px;
+
+  @media (max-width: 400px) {
+    margin: 5px;
+  }
 }
 
 .main--form-wrapper {
@@ -106,6 +110,7 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
   box-shadow: $shadow;
   padding: 10px;
   background: #fff;
+  margin: 20px 0;
 }
 
 .form__field {
