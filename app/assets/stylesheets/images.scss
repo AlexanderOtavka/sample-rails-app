@@ -9,19 +9,27 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 
 .header {
   box-shadow: $shadow;
-  padding: 20px;
+  padding: 10px 20px;
   display: flex;
   background: #fff;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
 
   & > * {
-    margin: 0 10px;
+    margin: 10px 10px;
   }
 }
 
 .header__title {
+  margin: 10px;
   flex: 1;
-  margin: 0;
+  line-height: 1.15;
+  flex-basis: 150px;
   font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 // Main
@@ -84,6 +92,7 @@ $shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
   width: 100%;
   border-radius: 10px;
   display: block;
+  background: #ccc;
 }
 
 .image__title {
