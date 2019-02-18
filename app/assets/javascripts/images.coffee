@@ -2,8 +2,13 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+#
 # Layout the children of listElement in a masonry style (like pinterest)
-# listElement must not be position static
+#
+# listElement must be a positioning root (ie. not position static)
+# listElement's padding and the margins on its children are ignored in the
+#   layout. Use wrapper elements if you want that whitespace
+#
 connectMasonryLayout = (listElement) ->
   if getComputedStyle(listElement).getPropertyValue("position") == "static"
     throw Error "listElement cannot be position static"
@@ -74,8 +79,17 @@ connectMasonryLayout = (listElement) ->
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(doLayout, 400)
 
+#
+# When the footerElement scrolls into view, the next page is automatically loaded
+#
+# listElement should have a data-num-pages if there is a finite amount
+# footerElement's contents will be wiped and replaced with loading text or other
+#   status messages
+# onPageAdd gets called synchronously with no arguments as each page is added
+# getPage will be given a page number, and should return a DOM node
+#
 connectInfiniteList = (listElement, {footerElement, onPageAdd, getPage}) ->
-  numPages = +listElement.dataset.numPages
+  numPages = +listElement.dataset.numPages || Infinity
   nextPage = 2
   hasReachedEnd = false
   isFetching = false
